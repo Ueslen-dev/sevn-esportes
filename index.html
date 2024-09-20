@@ -20,7 +20,11 @@
       <h2>Confira as rodadas do nosso campeonato fictício!</h2>
       <section class="scoreboard">
         <article class="scoreboard_navigation">
-          <button class="scoreboard_button-navigation" type="button">
+          <button
+            class="scoreboard_button-navigation"
+            type="button"
+            id="scoreboard_button-navigation_left"
+          >
             <img
               src="./asssets/images/arrow_left.svg"
               alt="seta de navegação apontada para esquerda, responsável por voltar uma página."
@@ -30,7 +34,11 @@
             <span id="scoreboard_rounds-title">Rodadas de Jogos</span>
             <span id="scoreboard_rounds-subtitle">RODADA 1</span>
           </div>
-          <button class="scoreboard_button-navigation" type="button">
+          <button
+            class="scoreboard_button-navigation"
+            type="button"
+            id="scoreboard_button-navigation_right"
+          >
             <img
               src="./asssets/images/arrow_right.svg"
               alt="seta de navegação apontada para direita, responsável por avançar uma página."
@@ -39,20 +47,32 @@
         </article>
         <article class="scoreboard_times">
           <div class="scoreboard_times-badge">
-            <img src="./asssets/images/team_shield_a.svg" alt="" />
+            <img
+              src="./asssets/images/team_shield_a.svg"
+              alt="escudo do time"
+              id="scoreboard_times-badge_img_left"
+            />
             <span>Time A</span>
           </div>
           <div class="scoreboard_times-score">
-            <span>3</span>
-            <img src="./asssets/images/x.svg" alt="" />
-            <span>0</span>
+            <span id="scoreboard_times-score_left">3</span>
+            <img
+              src="./asssets/images/x.svg"
+              alt="ícone de X utilizado para separar o placar"
+              id="scoreboard_times-badge_img_right"
+            />
+            <span id="scoreboard_times-score_right">0</span>
           </div>
           <div class="scoreboard_times-badge">
             <span>Time B</span>
-            <img src="./asssets/images/team_shield_a.svg" alt="" />
+            <img
+              src="./asssets/images/team_shield_a.svg"
+              alt="escudo do time"
+            />
           </div>
         </article>
       </section>
     </main>
+    <script src="./asssets/scripts/main.js"></script>
   </body>
 </html>
