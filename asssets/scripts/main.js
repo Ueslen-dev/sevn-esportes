@@ -1,4 +1,5 @@
 const BASE_URL = "https://sevn-pleno-esportes.deno.dev";
+let offset = 1;
 
 const buttonNavigationLeft = document.getElementById(
   "scoreboard_button-navigation_left"
@@ -13,10 +14,16 @@ const scoreboardTimesWrapper = document.getElementById(
   "scoreboard_times-wrapper"
 );
 
-const renderScoreboard = ({ round, games }) => {
-  scoreboardRoundsSubtitle.innerText = round;
+const renderScoreboard = ({ round, games, isPagination = false }) => {
+  scoreboardRoundsSubtitle.innerText = `RODADA ${round}`;
+  const wrapper = document.createElement("div");
 
   if (games && games.length > 0) {
+    if (isPagination) {
+      const allWrapperList = document.getElementsByClassName("round");
+      scoreboardTimesWrapper.removeChild(allWrapperList[0]);
+    }
+
     games.map((game) => {
       const article = document.createElement("article");
 
@@ -36,16 +43,16 @@ const renderScoreboard = ({ round, games }) => {
 
       divBadgeLeft.classList.add("scoreboard_times-badge");
       imgBadgeLeft.setAttribute("src", "./asssets/images/team_shield_a.svg");
-      spanBadgeLeft.innerText = "Time A";
+      spanBadgeLeft.innerText = game.team_away_name;
 
       divScore.classList.add("scoreboard_times-score");
-      spanScoreLeft.innerText = "3";
+      spanScoreLeft.innerText = game.team_away_score;
       imgScore.setAttribute("src", "./asssets/images/x.svg");
-      spanScoreRight.innerText = "0";
+      spanScoreRight.innerText = game.team_home_score;
 
       divBadgeRight.classList.add("scoreboard_times-badge");
       imgBadgeRight.setAttribute("src", "./asssets/images/team_shield_a.svg");
-      spanBadgeRight.innerText = "Time B";
+      spanBadgeRight.innerText = game.team_home_name;
 
       divBadgeLeft.appendChild(imgBadgeLeft);
       divBadgeLeft.appendChild(spanBadgeLeft);
@@ -61,7 +68,10 @@ const renderScoreboard = ({ round, games }) => {
       article.appendChild(divScore);
       article.appendChild(divBadgeRight);
 
-      scoreboardTimesWrapper.appendChild(article);
+      wrapper.setAttribute("class", `round`);
+
+      wrapper.appendChild(article);
+      scoreboardTimesWrapper.appendChild(wrapper);
     });
   }
 };
@@ -81,10 +91,76 @@ const getData = async () => {
   }
 };
 
-async function main() {
+const prevPagination = () => {
+  if (offset > 1) {
+    offset--;
+
+    buttonNavigationRight.removeAttribute("disable");
+    buttonNavigationRight.classList.remove("desactivate-button");
+  }
+  if (offset === 1) {
+    buttonNavigationLeft.setAttribute("disable", true);
+    buttonNavigationLeft.classList.add("desactivate-button");
+  }
+};
+
+const nextPagination = (totalPages) => {
+  if (offset < totalPages) {
+    offset++;
+
+    buttonNavigationLeft.removeAttribute("disable");
+    buttonNavigationLeft.classList.remove("desactivate-button");
+  }
+  if (offset === totalPages) {
+    buttonNavigationRight.setAttribute("disable", true);
+    buttonNavigationRight.classList.add("desactivate-button");
+  }
+};
+
+const filterDataScoreboaard = (data, offset) => {
+  return data.find((game) => game.round === offset);
+};
+
+const main = async () => {
   const data = await getData();
-  renderScoreboard({ round: "Round 1", games: data });
-  console.log(data, "data");
-}
+
+  if (offset === 1) {
+    buttonNavigationLeft.setAttribute("disable", true);
+    buttonNavigationLeft.classList.add("desactivate-button");
+  }
+
+  if (data && data.length > 0) {
+    const defaultDataScoreboard = filterDataScoreboaard(data, offset);
+
+    renderScoreboard({
+      round: defaultDataScoreboard.round,
+      games: defaultDataScoreboard.games,
+    });
+
+    buttonNavigationLeft.addEventListener("click", () => {
+      prevPagination();
+      const dataScoreboardFiltered = filterDataScoreboaard(data, offset);
+
+      renderScoreboard({
+        round: dataScoreboardFiltered.round,
+        games: dataScoreboardFiltered.games,
+        isPagination: true,
+      });
+    });
+
+    buttonNavigationRight.addEventListener("click", () => {
+      const totalPages = data.length || 0;
+
+      nextPagination(totalPages);
+      const dataScoreboardFiltered = filterDataScoreboaard(data, offset);
+
+      renderScoreboard({
+        round: dataScoreboardFiltered.round,
+        games: dataScoreboardFiltered.games,
+        isPagination: true,
+      });
+    });
+  }
+};
 
 main();

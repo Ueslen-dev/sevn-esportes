@@ -15,6 +15,10 @@ body {
   font-size: 1.6rem;
 }
 
+.desactivate-button {
+  background-color: #dddd !important;
+}
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
