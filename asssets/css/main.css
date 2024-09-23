@@ -113,6 +113,10 @@ body {
   padding-bottom: 2rem;
 }
 
+.scoreboard_times:last-child {
+  border-bottom: none;
+}
+
 .scoreboard_times-badge {
   display: flex;
   align-items: center;
