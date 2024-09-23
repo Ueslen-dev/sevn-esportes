@@ -9,18 +9,62 @@ const buttonNavigationRight = document.getElementById(
 const scoreboardRoundsSubtitle = document.getElementById(
   "scoreboard_rounds-subtitle"
 );
-const scoreboardTimesBadgeImgLeft = document.getElementById(
-  "scoreboard_times-badge_img_left"
+const scoreboardTimesWrapper = document.getElementById(
+  "scoreboard_times-wrapper"
 );
-const scoreboardTimesBadgeImgRight = document.getElementById(
-  "scoreboard_times-badge_img_right"
-);
-const scoreboardTimesScoreLeft = document.getElementById(
-  "scoreboard_times-score_left"
-);
-const scoreboardTimesScoreRight = document.getElementById(
-  "scoreboard_times-score_right"
-);
+
+const renderScoreboard = ({ round, games }) => {
+  scoreboardRoundsSubtitle.innerText = round;
+
+  if (games && games.length > 0) {
+    games.map((game) => {
+      const article = document.createElement("article");
+
+      const divBadgeLeft = document.createElement("div");
+      const divBadgeRight = document.createElement("div");
+      const imgBadgeLeft = document.createElement("img");
+      const imgBadgeRight = document.createElement("img");
+      const spanBadgeLeft = document.createElement("span");
+      const spanBadgeRight = document.createElement("span");
+
+      const divScore = document.createElement("div");
+      const spanScoreLeft = document.createElement("span");
+      const spanScoreRight = document.createElement("span");
+      const imgScore = document.createElement("img");
+
+      article.classList.add("scoreboard_times");
+
+      divBadgeLeft.classList.add("scoreboard_times-badge");
+      imgBadgeLeft.setAttribute("src", "./asssets/images/team_shield_a.svg");
+      spanBadgeLeft.innerText = "Time A";
+
+      divScore.classList.add("scoreboard_times-score");
+      spanScoreLeft.innerText = "3";
+      imgScore.setAttribute("src", "./asssets/images/x.svg");
+      spanScoreRight.innerText = "0";
+
+      divBadgeRight.classList.add("scoreboard_times-badge");
+      imgBadgeRight.setAttribute("src", "./asssets/images/team_shield_a.svg");
+      spanBadgeRight.innerText = "Time B";
+
+      divBadgeLeft.appendChild(imgBadgeLeft);
+      divBadgeLeft.appendChild(spanBadgeLeft);
+
+      divScore.appendChild(spanScoreLeft);
+      divScore.appendChild(imgScore);
+      divScore.appendChild(spanScoreRight);
+
+      divBadgeRight.appendChild(spanBadgeRight);
+      divBadgeRight.appendChild(imgBadgeRight);
+
+      article.appendChild(divBadgeLeft);
+      article.appendChild(divScore);
+      article.appendChild(divBadgeRight);
+
+      scoreboardTimesWrapper.appendChild(article);
+    });
+  }
+};
 
 const getData = async () => {
   try {
@@ -39,6 +83,8 @@ const getData = async () => {
 
 async function main() {
   const data = await getData();
+  renderScoreboard({ round: "Round 1", games: data });
+  console.log(data, "data");
 }
 
 main();
