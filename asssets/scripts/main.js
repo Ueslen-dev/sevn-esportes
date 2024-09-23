@@ -1,4 +1,4 @@
-import { getData } from "../../services/scoreboardServices/getData.js";
+import { getAllScoreBoard } from "../../services/scoreboardServices/getAllScoreBoard.js";
 import { renderScoreboard } from "./renderScoreboard.js";
 
 let offset = 1;
@@ -41,7 +41,7 @@ const filterDataScoreboaard = (data, offset) => {
 };
 
 const main = async () => {
-  const data = await getData();
+  const data = await getAllScoreBoard();
 
   if (offset === 1) {
     buttonNavigationLeft.setAttribute("disable", true);

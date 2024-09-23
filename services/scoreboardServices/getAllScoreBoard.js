@@ -1,6 +1,6 @@
 const BASE_URL = "https://sevn-pleno-esportes.deno.dev";
 
-export const getData = async () => {
+export const getAllScoreBoard = async () => {
   try {
     const response = await fetch(`${BASE_URL}/`);
     if (!response.ok) {
