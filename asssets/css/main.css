@@ -101,6 +101,10 @@ body {
   font-weight: 700;
 }
 
+#scoreboard_times-wrapper {
+  width: 100%;
+}
+
 .scoreboard_times {
   display: flex;
   justify-content: space-between;
